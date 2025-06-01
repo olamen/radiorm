@@ -1,6 +1,59 @@
 {
   "@@locale": "ar",
-  "appBarTitleAr": "إذاعة موريتانيا",
-  "pause": "توقف",
-  "playRadioStream": "البث المباشر"
+  "title": "إذاعة موريتانيا",
+  "@title": {
+    "description": "App title"
+  },
+  "home": "البث",
+  "@home": {
+    "description": "Home tab"
+  },
+  "info": "الأخبار",
+  "@info": {
+    "description": "Info tab"
+  },
+  "fetchingData": "جاري جلب البيانات...",
+  "@fetchingData": {
+    "description": "Fetching data message"
+  },
+  "infos": "الأخبار",
+  "@infos": {
+    "description": "Infos title"
+  },
+  "loadingNews": "جاري تحميل الأخبار...",
+  "@loadingNews": {
+    "description": "Loading News"
+  },
+  "errorLoadingNews": "خطأ في تحميل الأخبار",
+  "@errorLoadingNews": {
+    "description": "Error loading"
+  },
+  "newsTitle": "الأخبار",
+  "@newsTitle": {
+    "description": "News Title"
+  },
+  "retryButton": "إعادة المحاولة",
+  "@retryButton": {
+    "description": "Retry"
+  },
+  "noNewsAvailable": "لا توجد أخبار متاحة",
+  "@noNewsAvailable": {
+    "description": "No News"
+  },
+  "playButton": "تشغيل",
+  "@playButton": {
+    "description": "Play button label"
+  },
+  "stopButton": "إيقاف",
+  "@stopButton": {
+    "description": "Stop button label"
+  },
+  "liveStream": "البث المباشر",
+  "@liveStream": {
+    "description": "Live stream label"
+  },
+  "playbackError": "خطأ في التشغيل. يرجى المحاولة مرة أخرى.",
+  "@playbackError": {
+    "description": "Playback error message"
+  }
 }

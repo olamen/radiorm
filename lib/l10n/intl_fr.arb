@@ -1,6 +1,59 @@
 {
   "@@locale": "fr",
-  "appBarTitle": "Radio Mauritanie",
-  "pause": "Pause",
-  "playRadioStream": "Emission en direct"
+  "title": "Radio Mauritanie",
+  "@title": {
+    "description": "App title"
+  },
+  "home": "Diffusion",
+  "@home": {
+    "description": "Home tab"
+  },
+  "info": "Actualités",
+  "@info": {
+    "description": "Info tab"
+  },
+  "fetchingData": "Récupération des données...",
+  "@fetchingData": {
+    "description": "Fetching data message"
+  },
+  "infos": "Actualités",
+  "@infos": {
+    "description": "Infos title"
+  },
+  "loadingNews": "Chargement des actualités...",
+  "@loadingNews": {
+    "description": "Loading News"
+  },
+  "errorLoadingNews": "Erreur lors du chargement",
+  "@errorLoadingNews": {
+    "description": "Error loading"
+  },
+  "newsTitle": "Actualités",
+  "@newsTitle": {
+    "description": "News Title"
+  },
+  "retryButton": "Réessayer",
+  "@retryButton": {
+    "description": "Retry"
+  },
+  "noNewsAvailable": "Aucune actualité disponible",
+  "@noNewsAvailable": {
+    "description": "No News"
+  },
+  "playButton": "Écouter",
+  "@playButton": {
+    "description": "Play button label"
+  },
+  "stopButton": "Arrêter",
+  "@stopButton": {
+    "description": "Stop button label"
+  },
+  "liveStream": "Diffusion en direct",
+  "@liveStream": {
+    "description": "Live stream label"
+  },
+  "playbackError": "Erreur de lecture du flux. Veuillez réessayer.",
+  "@playbackError": {
+    "description": "Playback error message"
+  }
 }

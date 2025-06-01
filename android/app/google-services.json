@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "329412223424",
+    "project_id": "radio-mauritanie-76325",
+    "storage_bucket": "radio-mauritanie-76325.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329412223424:android:a80bf633629ac6eb9da825",
+        "android_client_info": {
+          "package_name": "com.example.radiomr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOndvK9T9QJNZ-g-7gmrOwniVDZAVbx0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329412223424:android:fea9b1a39f351c099da825",
+        "android_client_info": {
+          "package_name": "com.radiorm.radiormapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOndvK9T9QJNZ-g-7gmrOwniVDZAVbx0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.example.stream2
+package com.radiorm.radiormapp
 
 import io.flutter.embedding.android.FlutterActivity
 
