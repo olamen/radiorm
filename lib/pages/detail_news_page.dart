@@ -29,7 +29,7 @@ class DetailNewsPage extends StatelessWidget {
       backgroundColor: Colors.white, 
       appBar: AppBar(
         title: Text(
-          news['title_${Localizations.localeOf(context).languageCode}'] ??
+          news['title'] ??
               'News Details', 
           style: TextStyle(
             color: Colors.grey[800],
@@ -83,7 +83,7 @@ class DetailNewsPage extends StatelessWidget {
                 children: [
                   
                   Text(
-                    news['title_${Localizations.localeOf(context).languageCode}'] ??
+                    news['title'] ??
                         'No Title Available', 
                     style: TextStyle(
                       fontSize: 28, 
@@ -106,7 +106,7 @@ class DetailNewsPage extends StatelessWidget {
 
                   
                   Text(
-                    news['content_${Localizations.localeOf(context).languageCode}'] ??
+                    news['content'] ??
                         'No content available for this news item.', 
                     style: const TextStyle(
                       fontSize: 17, 

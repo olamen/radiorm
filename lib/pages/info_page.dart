@@ -55,11 +55,12 @@ class _InfoPageState extends State<InfoPage> {
               'image': item['news_image'] != null
                   ? "$baseUrl${item['news_image']}"
                   : null,
-              'title_fr': item['news_title_fr']?.toString() ?? 'Pas de titre',
-              'title_ar': item['news_title_ar']?.toString() ?? 'لا عنوان' ,
-                  
-              'content_fr': item['news_script_fr']?.toString() ?? 'Pas de titre',
-              'content_ar': item['news_script_ar']?.toString() ?? 'لا عنوان',
+              'title': isArabic
+                  ? item['news_title_ar']?.toString() ?? 'لا عنوان'
+                  : item['news_title_fr']?.toString() ?? 'Pas de titre',
+              'content': isArabic
+                  ? item['news_script_ar']?.toString() ?? 'لا محتوى'
+                  : item['news_script_fr']?.toString() ?? 'Pas de contenu',
             };
           }).toList();
           isLoading = false;
@@ -236,7 +237,7 @@ class _InfoPageState extends State<InfoPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item['title_${Localizations.localeOf(context).languageCode}']!,
+                              item['title']!,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
