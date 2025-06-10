@@ -97,57 +97,59 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white, 
 
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            
-            Image.asset(
-              'assets/images/logo.png',
-              width: 250, 
-              height: 250,
-            ),
-            const SizedBox(height: 0), 
-            AnimatedWave(
-                isPlaying: _isPlaying, 
-                waveColor: Colors.green[700]!), 
-            const SizedBox(height: 50), 
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green[700], 
-                foregroundColor: Colors.white, 
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 40, vertical: 12), 
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              
+              Image.asset(
+                'assets/images/logo.png',
+                width: 250, 
+                height: 250,
+              ),
+              const SizedBox(height: 0), 
+              AnimatedWave(
+                  isPlaying: _isPlaying, 
+                  waveColor: Colors.green[700]!), 
+              const SizedBox(height: 50), 
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[700], 
+                  foregroundColor: Colors.white, 
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 40, vertical: 12), 
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  elevation: 3, 
                 ),
-                elevation: 3, 
+                icon: Transform.scale(
+                  scaleX: isRtl ? -1 : 1, 
+                  child: Icon(
+                    _isPlaying ? Icons.pause : Icons.play_arrow, 
+                    color: Colors.white,
+                    size: 30, 
+                  ),
+                ),
+                label: Text(
+                  _isPlaying 
+                      ? (localizations?.stopButton ?? 'Stop')
+                      : (localizations?.playButton ?? 'Play'),
+                  style: const TextStyle(fontSize: 22), 
+                ),
+                onPressed: _togglePlayback, 
               ),
-              icon: Transform.scale(
-                scaleX: isRtl ? -1 : 1, 
-                child: Icon(
-                  _isPlaying ? Icons.pause : Icons.play_arrow, 
-                  color: Colors.white,
-                  size: 30, 
+              const SizedBox(height: 40),
+              Text(
+                localizations?.liveStream ?? 'Live Stream', 
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.black54, 
                 ),
               ),
-              label: Text(
-                _isPlaying 
-                    ? (localizations?.stopButton ?? 'Stop')
-                    : (localizations?.playButton ?? 'Play'),
-                style: const TextStyle(fontSize: 22), 
-              ),
-              onPressed: _togglePlayback, 
-            ),
-            const SizedBox(height: 40),
-            Text(
-              localizations?.liveStream ?? 'Live Stream', 
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.black54, 
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

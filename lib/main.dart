@@ -195,6 +195,7 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(AppLocalizations.of(context)?.title ?? 'Radio Mauritanie'),
         actions: [
           PopupMenuButton<Locale>(
