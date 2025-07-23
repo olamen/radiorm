@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '329412223424',
     projectId: 'radio-mauritanie-76325',
     storageBucket: 'radio-mauritanie-76325.firebasestorage.app',
-    iosBundleId: 'com.radiorm.radiormapp',
+    iosBundleId: 'com.radiorm.app',
   );
 
 }

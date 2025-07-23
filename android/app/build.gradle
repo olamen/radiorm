@@ -14,7 +14,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    namespace = "com.radiorm.radiormapp"
+    namespace = "com.radiorm.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -28,7 +28,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.radiorm.radiormapp"
+        applicationId = "com.radiorm.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -47,6 +47,10 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+
+            ndk {
+                debugSymbolLevel = 'FULL' // Or 'SYMBOL_TABLE' for smaller size
+            }
         }
     }
 }

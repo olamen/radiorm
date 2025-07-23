@@ -26,6 +26,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:329412223424:android:759857cd527293ab9da825",
+        "android_client_info": {
+          "package_name": "com.radiorm.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOndvK9T9QJNZ-g-7gmrOwniVDZAVbx0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:329412223424:android:fea9b1a39f351c099da825",
         "android_client_info": {
           "package_name": "com.radiorm.radiormapp"
