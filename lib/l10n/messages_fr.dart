@@ -14,19 +14,24 @@ import 'package:intl/message_lookup_by_library.dart';
 
 final messages = MessageLookup();
 
-typedef String? MessageIfAbsent(
-    String? messageStr, List<Object>? args);
+typedef String? MessageIfAbsent(String? messageStr, List<Object>? args);
 
 class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'fr';
 
   @override
-  final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
+  final Map<String, dynamic> messages =
+      _notInlinedMessages(_notInlinedMessages);
 
   static Map<String, dynamic> _notInlinedMessages(_) => {
-      'appBarTitle': MessageLookupByLibrary.simpleMessage('Radio Mauritanie'),
-    'pause': MessageLookupByLibrary.simpleMessage('Pause'),
-    'playRadioStream': MessageLookupByLibrary.simpleMessage('Emission en direct')
-  };
+        'appBarTitle': MessageLookupByLibrary.simpleMessage('Radio Mauritanie'),
+        'pause': MessageLookupByLibrary.simpleMessage('Pause'),
+        'playRadioStream':
+            MessageLookupByLibrary.simpleMessage('Emission en direct'),
+        'musicPageTitle': MessageLookupByLibrary.simpleMessage('Musique'),
+        'noMusicAvailable':
+            MessageLookupByLibrary.simpleMessage('Aucune musique disponible'),
+        'nowPlaying': MessageLookupByLibrary.simpleMessage('Lecture en cours'),
+      };
 }

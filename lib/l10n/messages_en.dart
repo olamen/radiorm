@@ -27,6 +27,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, dynamic> _notInlinedMessages(_) => {
       'appBarTitle': MessageLookupByLibrary.simpleMessage('Radio Mauritanie'),
     'pause': MessageLookupByLibrary.simpleMessage('Pause'),
-    'playRadioStream': MessageLookupByLibrary.simpleMessage('Play Radio Stream')
+    'playRadioStream': MessageLookupByLibrary.simpleMessage('Play Radio Stream'),
+    'musicPageTitle': MessageLookupByLibrary.simpleMessage('Music'),
+    'noMusicAvailable': MessageLookupByLibrary.simpleMessage('No music available'),
+    'nowPlaying': MessageLookupByLibrary.simpleMessage('Now Playing'),
   };
 }

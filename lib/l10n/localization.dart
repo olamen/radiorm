@@ -49,6 +49,15 @@ class AppLocalizations {
     );
   }
 
+  String get music {
+    return Intl.message(
+      'musicPageTitle',
+      name: 'musicc',
+      desc: 'Music tab',
+      locale: Intl.defaultLocale,
+    );
+  }
+
   String get fetchingData {
     return Intl.message(
       'Fetching data...',
@@ -149,15 +158,26 @@ class AppLocalizations {
   }
 }
 
+String get musicPageTitle {
+  return Intl.message(
+    'Music',
+    name: 'musicPageTitle',
+    desc: 'Title for the music page',
+    locale: Intl.defaultLocale,
+  );
+}
+
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['fr', 'ar', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      ['fr', 'ar', 'en'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) => AppLocalizations.load(locale);
 
   @override
-  bool shouldReload(covariant LocalizationsDelegate<AppLocalizations> old) => false;
+  bool shouldReload(covariant LocalizationsDelegate<AppLocalizations> old) =>
+      false;
 }

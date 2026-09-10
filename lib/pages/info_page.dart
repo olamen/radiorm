@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:radiomr/const.dart';
 import '../l10n/localization.dart';
 import 'detail_news_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,8 +30,6 @@ class _InfoPageState extends State<InfoPage> {
       isLoading = true;
       errorMessage = null;
     });
-    final baseUrl = "https://monecole-4jfb.onrender.com";
-    final newsApiUrl = "$baseUrl/api/news/";
 
     try {
       final uri = Uri.parse(newsApiUrl);
@@ -47,18 +46,15 @@ class _InfoPageState extends State<InfoPage> {
 
         setState(() {
           newsList = newsItems.map((item) {
-            final locale = Localizations.localeOf(context).languageCode;
-            final isArabic = locale == 'ar';
-
             return {
               'date': item['news_date']?.toString() ?? 'No Date Available',
               'image': item['news_image'] != null
                   ? "$baseUrl${item['news_image']}"
                   : null,
               'title_fr': item['news_title_fr']?.toString() ?? 'Pas de titre',
-              'title_ar': item['news_title_ar']?.toString() ?? 'لا عنوان' ,
-                  
-              'content_fr': item['news_script_fr']?.toString() ?? 'Pas de titre',
+              'title_ar': item['news_title_ar']?.toString() ?? 'لا عنوان',
+              'content_fr':
+                  item['news_script_fr']?.toString() ?? 'Pas de titre',
               'content_ar': item['news_script_ar']?.toString() ?? 'لا عنوان',
             };
           }).toList();
@@ -236,7 +232,8 @@ class _InfoPageState extends State<InfoPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item['title_${Localizations.localeOf(context).languageCode}']!,
+                              item[
+                                  'title_${Localizations.localeOf(context).languageCode}']!,
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

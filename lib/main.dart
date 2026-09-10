@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
+import 'package:radiomr/firebase_options.dart';
 import 'package:radiomr/l10n/localization.dart';
+// import 'package:radiomr/pages/info_page.dart';
+import 'package:radiomr/pages/musicHome.dart';
+import 'package:radiomr/services/firebase_messagin.dart';
+import 'package:radiomr/services/local_notification_service.dart';
 import 'pages/home_page.dart';
-import 'pages/info_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audio_service/audio_service.dart';
@@ -14,31 +17,48 @@ import 'widgets/audio_player_service.dart';
 import 'package:provider/provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
+  // Don't initialize Firebase here if it's already initialized in main()
+  // The background handler runs in an isolate, so we need to initialize Firebase
+  // but we should use a try-catch to handle the duplicate app error
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } catch (e) {
+    // Ignore duplicate app error
+    print('Firebase already initialized in background handler: $e');
+  }
+
+  // Handle your background message here
+  print('Background message received: ${message.messageId}');
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  print("Initializing firebase");
+
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
+  final localnotificationservice = LocalNotificationsService.instance();
+  await localnotificationservice.init();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  print("Background message handler registered");
+
+  // Clear badge when app starts
+  if (Platform.isIOS) {
+    //FlutterAppBadger.removeBadge();
+  }
+
+  // Listen for foreground messages
+  final firebaseMessaging = FirebaseMessagingService.instance();
+  firebaseMessaging.init(localNotificationsService: localnotificationservice);
 
   if (Platform.isIOS) {
-    NotificationSettings settings =
-        await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    print('User granted permission: ${settings.authorizationStatus}');
-
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
@@ -47,9 +67,24 @@ void main() async {
     );
   }
 
-  print("Notification permissions handled");
-  await subscribeToGlobalTopic();
-  print("Subscribed to 'all-users' topic");
+  // Handle notification taps when app is terminated/background
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print('Notification opened from background/terminated state');
+    // Clear badge when notification is tapped
+    if (Platform.isIOS) {
+      // FlutterAppBadger.removeBadge();
+    }
+  });
+
+  // Handle notification tap when app was terminated
+  final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    print('App opened from terminated state via notification');
+    // Clear badge when app opens from notification
+    if (Platform.isIOS) {
+      //FlutterAppBadger.removeBadge();
+    }
+  }
 
   final audioHandler = await initAudioService();
 
@@ -61,29 +96,15 @@ void main() async {
   );
 }
 
-Future<void> subscribeToGlobalTopic() async {
-  try {
-    await FirebaseMessaging.instance
-        .subscribeToTopic('all-users')
-        .timeout(const Duration(seconds: 10));
-    print('Successfully subscribed to the "all-users" topic.');
-  } catch (e) {
-    print('Error subscribing to topic: $e');
-  }
-}
-
 class RadioApp extends StatefulWidget {
   const RadioApp({super.key});
 
   @override
   State<RadioApp> createState() => _RadioAppState();
-
-  static _RadioAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_RadioAppState>();
 }
 
 class _RadioAppState extends State<RadioApp> {
-  Locale _locale = const Locale('fr');
+  Locale _locale = const Locale('ar');
 
   @override
   void initState() {
@@ -93,17 +114,9 @@ class _RadioAppState extends State<RadioApp> {
 
   Future<void> _loadLanguagePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    final languageCode = prefs.getString('user_language') ?? 'fr';
+    final languageCode = prefs.getString('user_language') ?? 'ar';
     setState(() {
       _locale = Locale(languageCode);
-    });
-  }
-
-  Future<void> _changeLanguage(Locale locale) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_language', locale.languageCode);
-    setState(() {
-      _locale = locale;
     });
   }
 
@@ -133,8 +146,7 @@ class _RadioAppState extends State<RadioApp> {
       ],
       supportedLocales: const [
         Locale('fr', 'FR'),
-        Locale('ar', 'AE'),
-        Locale('en', 'US'),
+        Locale('ar', 'AR'),
       ],
       home: const SplashScreen(), // Set SplashScreen as the initial page
     );
@@ -181,67 +193,70 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   int _currentIndex = 0;
 
-  final _pages = [
+  final List<Widget> _pages = [
     const HomePage(),
-    const InfoPage(),
+    const MusicHomePage(),
+    //const InfoPage(),
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final radioAppState = RadioApp.of(context);
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Clear badge when main page loads
+    if (Platform.isIOS) {
+      //FlutterAppBadger.removeBadge();
+    }
+  }
 
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Clear badge when app comes to foreground
+      if (Platform.isIOS) {
+        // FlutterAppBadger.removeBadge();
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(AppLocalizations.of(context)?.title ?? 'Radio Mauritanie'),
-        actions: [
-          PopupMenuButton<Locale>(
-            icon: Icon(Icons.language, color: Colors.grey[800]),
-            onSelected: (locale) {
-              if (radioAppState != null) {
-                radioAppState._changeLanguage(locale);
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: Locale('fr', 'FR'),
-                child: Text('Français'),
-              ),
-              const PopupMenuItem(
-                value: Locale('ar', 'AE'),
-                child: Text('العربية'),
-              ),
-            ],
-          ),
-        ],
+        actions: [],
       ),
       body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+      /*bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         selectedItemColor: Colors.green[700],
         unselectedItemColor: Colors.grey[600],
-        selectedLabelStyle: RadioApp.of(context)?._locale.languageCode == 'ar'
-            ? GoogleFonts.tajawal(fontWeight: FontWeight.bold)
-            : GoogleFonts.poppins(fontWeight: FontWeight.bold),
-        unselectedLabelStyle: RadioApp.of(context)?._locale.languageCode == 'ar'
-            ? GoogleFonts.tajawal()
-            : GoogleFonts.poppins(),
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.radio),
-            label: AppLocalizations.of(context)?.home ?? 'Accueil',
+            label: AppLocalizations.of(context)?.home ?? 'الرئيسية',
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.newspaper),
-            label: AppLocalizations.of(context)?.info ?? 'Infos',
+            icon: const Icon(Icons.snowing),
+            label: 'ذاكرة الإذاعة',
           ),
         ],
-        onTap: (index) => setState(() => _currentIndex = index),
-      ),
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),*/
     );
   }
 }

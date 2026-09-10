@@ -1,0 +1,7 @@
+version pour ios
+
+
+
+flutter gen-l10n --arb-dir=lib/l10n --template-arb-file=intl_ar.arb --output-localization-file=l10n.dart --output-class=AppLocalizations
+
+

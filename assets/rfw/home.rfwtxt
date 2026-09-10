@@ -1,0 +1,68 @@
+// Server-driven "Updates & Announcements" panel for the Radio Mauritanie app.
+//
+// HOW TO UPDATE THE APP WITHOUT AN APP STORE / PLAY STORE RELEASE:
+//   1. Edit this file (assets/rfw/home.rfwtxt).
+//   2. Compile it to the binary format the app fetches:
+//        dart run tool/compile_rfw.dart
+//   3. Upload the generated assets/rfw/home.rfw file to your server at the
+//      URL configured as `rfwUpdatesUrl` in lib/const.dart
+//      (e.g. https://radiomauritanie.mr/rfw/home.rfw).
+//   4. Open the "التحديثات والإعلانات" screen in the app (or pull to
+//      refresh) — it fetches the new file and re-renders instantly.
+//
+// You only need to rebuild/resubmit the app when you change Dart code
+// (new widget types, new event names, navigation, etc.). Pure content,
+// text, colors, and links changes here do not require a new app release.
+
+import core.widgets;
+
+widget root = Container(
+  padding: [20.0, 20.0],
+  child: Column(
+    children: [
+      DefaultTextStyle(
+        style: { fontSize: 22.0, color: 0xFF1B5E20 },
+        child: Text(
+          text: "آخر الأخبار والتحديثات",
+          textDirection: "rtl",
+        ),
+      ),
+      SizedBox(height: 12.0),
+      DefaultTextStyle(
+        style: { fontSize: 15.0, color: 0xFF37474F },
+        child: Text(
+          text: "",
+          textDirection: "rtl",
+        ),
+      ),
+      SizedBox(height: 20.0),
+      GestureDetector(
+        onTap: event "openUrl" { url: "https://radiomauritanie.mr" },
+        child: Container(
+          padding: [18.0, 12.0],
+          color: 0xFF2E7D32,
+          child: DefaultTextStyle(
+            style: { color: 0xFFFFFFFF, fontSize: 16.0 },
+            child: Text(text: "زيارة الموقع الإلكتروني", textDirection: "rtl"),
+          ),
+        ),
+      ),
+      SizedBox(height: 12.0),
+      GestureDetector(
+        onTap: event "openWebview" { url: "https://radiomauritanie.mr/rmyoutube.html" },
+        child: Container(
+          padding: [18.0, 12.0],
+          color: 0xFF1565C0,
+          child: DefaultTextStyle(
+            style: { color: 0xFFFFFFFF, fontSize: 16.0 },
+            child: Text(text: "الحصيلة 2019 - 2026", textDirection: "rtl"),
+          ),
+        ),
+      ),
+    ],
+  ),
+);
+
+// To show an image from your server, add "import local;" above and use:
+//   RemoteImage(url: "https://radiomauritanie.mr/rfw/banner.jpg", height: 160.0)
+// in place of (or alongside) any of the widgets above.

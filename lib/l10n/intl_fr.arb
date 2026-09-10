@@ -40,7 +40,7 @@
   "@noNewsAvailable": {
     "description": "No News"
   },
-  "playButton": "Écouter",
+  "playButton": "Démarrer",
   "@playButton": {
     "description": "Play button label"
   },
